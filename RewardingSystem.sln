@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1209
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewardingSystem", "RewardingSystem\RewardingSystem.csproj", "{347C8ECF-97D8-4488-BF4F-E1DE9A2C9BE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{347C8ECF-97D8-4488-BF4F-E1DE9A2C9BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{347C8ECF-97D8-4488-BF4F-E1DE9A2C9BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{347C8ECF-97D8-4488-BF4F-E1DE9A2C9BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{347C8ECF-97D8-4488-BF4F-E1DE9A2C9BE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9C62E1B-FE49-475A-9DC6-EAD77663F9ED}
+	EndGlobalSection
+EndGlobal
