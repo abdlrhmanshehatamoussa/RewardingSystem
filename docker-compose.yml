@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  rewardingsystem:
+    image: ${DOCKER_REGISTRY-}rewardingsystem
+    build:
+      context: .
+      dockerfile: RewardingSystem/Dockerfile
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=vV5r9tn0M4@
+      - ACCEPT_EULA=Y
+    ports:
+      - "1450:1433"
