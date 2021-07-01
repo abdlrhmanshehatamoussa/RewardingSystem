@@ -12,7 +12,6 @@ namespace RewardingSystem.Persistence
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
             Database.EnsureCreated();
-            Database.Migrate();
         }
 
         public DbSet<Merchant> Merchants { get; set; }

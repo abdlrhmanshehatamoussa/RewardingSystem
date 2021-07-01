@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using RewardingSystem.Persistence;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class MerchantsController : BasicController
     {
-        public MerchantsController(DatabaseContext context) : base(context)
+        public MerchantsController(IConfiguration config, DatabaseContext context) : base(config, context)
         {
         }
 

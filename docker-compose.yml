@@ -2,10 +2,12 @@ version: '3.4'
 
 services:
   rewardingsystem:
-    image: ${DOCKER_REGISTRY-}rewardingsystem
-    build:
-      context: .
-      dockerfile: RewardingSystem/Dockerfile
+    image: ${DOCKER_REGISTRY-}rewardingsystem:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5000:80"
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:

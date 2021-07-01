@@ -40,7 +40,6 @@ namespace RewardingSystem
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
