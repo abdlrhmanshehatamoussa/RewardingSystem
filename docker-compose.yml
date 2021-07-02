@@ -2,16 +2,18 @@ version: '3.4'
 
 services:
   rewardingsystem:
-    image: ${DOCKER_REGISTRY-}rewardingsystem:latest
+    image: ${DOCKER_REGISTRY}rewardingsystem:latest
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=${ENV}
       - ASPNETCORE_URLS=http://+:80
     ports:
-      - "5000:80"
+      - "${APP_PORT}:80"
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
-      - SA_PASSWORD=vV5r9tn0M4@
+      - SA_PASSWORD=${SA_PASSWORD}
       - ACCEPT_EULA=Y
     ports:
-      - "1450:1433"
+      - "${DB_PORT}:1433"
+    volumes:
+      - ${SQL_DATA_VOL_PATH}:/var/opt/mssql/data:rw
