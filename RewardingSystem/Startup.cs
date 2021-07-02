@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using RewardingSystem.Exceptions;
 using RewardingSystem.Persistence;
 namespace RewardingSystem
 {
@@ -25,12 +29,38 @@ namespace RewardingSystem
                 .AddJsonOptions((options) => { });
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            try
+            {
+                app.UseExceptionHandler(
+                c => c.Run(
+                    async context =>
+                    {
+                        var exception = context.Features.Get<IExceptionHandlerPathFeature>().Error;
+                        var result = JsonConvert.SerializeObject(new { error = exception.Message });
+                        context.Response.ContentType = "application/json";
+                        int code = ExceptionMapper.MapException(exception);
+                        context.Response.StatusCode = code;
+                        await context.Response.WriteAsync(result);
+                    }
+                )
+            );
+            }
+            catch
+            {
+                System.Console.WriteLine("Error in Startup");
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

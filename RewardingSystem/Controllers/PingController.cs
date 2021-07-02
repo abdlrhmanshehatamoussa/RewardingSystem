@@ -20,21 +20,12 @@ namespace RewardingSystem.Controllers
             var merchants = Context.Merchants.ToList();
             var version = this.Configurations.GetValue<string>("AppSettings:Version");
             var timestamp = string.Format("{0} - {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
-            var response = new PingResponse(version, timestamp);
-            return new JsonResult(response);
-        }
-
-
-
-        private class PingResponse
-        {
-            public string Version { get; set; }
-            public string TimeStamp { get; set; }
-            public PingResponse(string v, string t)
+            var response = new
             {
-                this.Version = v;
-                this.TimeStamp = t;
-            }
+                Version = version,
+                TimeStamp = timestamp
+            };
+            return new JsonResult(response);
         }
     }
 
