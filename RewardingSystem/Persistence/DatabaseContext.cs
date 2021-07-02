@@ -24,6 +24,8 @@ namespace RewardingSystem.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Admin>().HasIndex(a=>a.UserName).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(a=>a.Email).IsUnique();
         }
 
         void Save()
