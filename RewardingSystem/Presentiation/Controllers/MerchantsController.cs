@@ -1,24 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using RewardingSystem.Persistence;
-using System.Collections.Generic;
-using System.Linq;
+using RewardingSystem.Application;
+using System;
+
 namespace RewardingSystem.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class MerchantsController : BasicController
+    public class MerchantsController:BasicController
     {
-        public MerchantsController(DatabaseContext context) : base(context)
+        public MerchantsController(IUnitOfWork uow) : base(uow)
         {
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var merchants = Context.Merchants.ToList();
-            return new JsonResult(merchants);
+            throw new NotImplementedException();
         }
     }
 }

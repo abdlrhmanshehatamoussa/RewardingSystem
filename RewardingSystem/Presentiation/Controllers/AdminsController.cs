@@ -11,13 +11,8 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class AdminsController : BasicController
     {
-        private IAdminsRepository AdminsRepository;
-        private IAdminTokensRepository AdminTokensRepository;
-
-        public AdminsController(DatabaseContext context) : base(context)
+        public AdminsController(IUnitOfWork uow) : base(uow)
         {
-            this.AdminsRepository = new AdminsRepository(context);
-            this.AdminTokensRepository = new AdminTokensRepository(context);
         }
 
         //Get Admin informatiom by token
@@ -28,7 +23,7 @@ namespace RewardingSystem.Controllers
             {
                 throw new Exception("Missing Token");
             }
-            var admin = this.AdminsRepository.GetByToken(token);
+            var admin = this.UnitOfWork.Admins.GetByToken(token);
             if (admin == null)
             {
                 throw new Exception("Invalid Token");
@@ -47,12 +42,13 @@ namespace RewardingSystem.Controllers
         {
             string username = request.UserName;
             string password = request.Password;
-            Admin admin = AdminsRepository.GetByUserName(username);
+            Admin admin = this.UnitOfWork.Admins.GetByUserName(username);
             if (admin == null || admin.Password != password)
             {
                 throw new FailedLoginException("Invalid Credentials");
             }
-            string token = this.AdminTokensRepository.Add(admin.Id);
+            string token = this.UnitOfWork.AdminsTokens.Add(admin.Id);
+            this.UnitOfWork.Save();
             if (string.IsNullOrWhiteSpace(token))
             {
                 throw new FailedLoginException("Failed to create token");

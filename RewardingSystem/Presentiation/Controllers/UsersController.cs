@@ -11,13 +11,8 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class UsersController : BasicController
     {
-        private IUsersRepository UsersRepository;
-        private IUserTokensRepository UserTokensRepository;
-
-        public UsersController(DatabaseContext context) : base(context)
+        public UsersController(IUnitOfWork uow) : base(uow)
         {
-            this.UsersRepository = new UsersRepository(context);
-            this.UserTokensRepository = new UserTokensRepository(context);
         }
 
         //Get user informatiom by token
@@ -28,7 +23,7 @@ namespace RewardingSystem.Controllers
             {
                 throw new Exception("Missing Token");
             }
-            var user = this.UsersRepository.GetByToken(token);
+            var user = UnitOfWork.Users.GetByToken(token);
             if (user == null)
             {
                 throw new Exception("Invalid Token");
@@ -48,12 +43,13 @@ namespace RewardingSystem.Controllers
         {
             string email = request.Email;
             string password = request.Password;
-            User user = UsersRepository.GetByEmail(email);
+            User user = UnitOfWork.Users.GetByEmail(email);
             if (user == null || user.Password != password)
             {
                 throw new FailedLoginException("Invalid Credentials");
             }
-            string token = this.UserTokensRepository.Add(user.Id);
+            string token = UnitOfWork.UserTokens.Add(user.Id);
+            UnitOfWork.Save();
             if (string.IsNullOrWhiteSpace(token))
             {
                 throw new FailedLoginException("Failed to create token");

@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using RewardingSystem.Application;
 using RewardingSystem.Helpers;
-using RewardingSystem.Persistence;
 using System;
-using System.Linq;
+
 namespace RewardingSystem.Controllers
 {
     [Route("api/[controller]")]
@@ -11,14 +10,13 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class PingController : BasicController
     {
-        public PingController(DatabaseContext context) : base(context)
+        public PingController(IUnitOfWork uow) : base(uow)
         {
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var merchants = Context.Merchants.ToList();
             var version = AppSettings.Instance.Version;
             var environment = AppSettings.Instance.Environment;
             var timestamp = string.Format("{0} - {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());

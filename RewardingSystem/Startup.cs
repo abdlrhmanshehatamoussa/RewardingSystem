@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
 using RewardingSystem.Helpers;
 using RewardingSystem.Persistence;
@@ -24,14 +25,25 @@ namespace RewardingSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AppSettings.Initialize(this.Configuration);
+            //Load application settings
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            AppSettings.Instance.Initialize(this.Configuration);
+            
+            //Register the database context
+            services.AddDbContext<DatabaseContext>(
+                options =>
+                {
+                    options.UseSqlServer(connectionString);
+                }
+            );
+
+            //Register the main services
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions((options) => { });
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

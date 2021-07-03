@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using RewardingSystem.Application;
-using RewardingSystem.Models;
 using RewardingSystem.Persistence;
+using RewardingSystem.Models;
 using RewardingSystem.Filters;
+using RewardingSystem.Application;
 
 namespace RewardingSystem.Controllers
 {
@@ -13,13 +13,8 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class PointsController : BasicController
     {
-        private ITransactionsRepository TransactionsRepository { get; set; }
-        private IUsersRepository UsersRepository { get; set; }
-
-        public PointsController(DatabaseContext context) : base(context)
+        public PointsController(IUnitOfWork uow) : base(uow)
         {
-            this.TransactionsRepository = new TransactionsRepository(context);
-            this.UsersRepository = new UsersRepository(context);
         }
 
         [LoggedUserFilter]
@@ -27,7 +22,7 @@ namespace RewardingSystem.Controllers
         public IActionResult Get()
         {
             User loggedInUser = this.HttpContext.Items["user"] as User;
-            List<Transaction> transactions = this.TransactionsRepository.Get(loggedInUser.Id);
+            List<Transaction> transactions = UnitOfWork.Transactions.Get(loggedInUser.Id);
             int points = transactions.Sum(t => t.Amount);
             return new JsonResult(new
             {
@@ -45,7 +40,7 @@ namespace RewardingSystem.Controllers
             string description = request.Description;
             int refNum = request.ReferenceNumber;
 
-            User user = this.UsersRepository.GetByEmail(email);
+            User user = UnitOfWork.Users.GetByEmail(email);
             int userId = user.Id;
             Transaction transaction = new Transaction()
             {
@@ -54,7 +49,8 @@ namespace RewardingSystem.Controllers
                 Description = description,
                 ReferenceNumber = refNum,
             };
-            this.TransactionsRepository.Add(transaction);
+            UnitOfWork.Transactions.Add(transaction);
+            UnitOfWork.Save();
             return new EmptyResult();
         }
     }

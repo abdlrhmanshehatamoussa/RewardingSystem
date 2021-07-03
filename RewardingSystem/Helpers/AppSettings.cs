@@ -16,10 +16,10 @@ namespace RewardingSystem.Helpers
 
         }
 
-        public static void Initialize(IConfiguration configurations)
+        public void Initialize(IConfiguration configurations)
         {
-            AppSettings.Instance.Version = configurations.GetValue<string>("AppSettings:Version");
-            AppSettings.Instance.Environment = configurations.GetValue<string>("AppSettings:Environment");
+            this.Version = configurations.GetValue<string>("AppSettings:Version");
+            this.Environment = configurations.GetValue<string>("AppSettings:Environment");
         }
     }
 }

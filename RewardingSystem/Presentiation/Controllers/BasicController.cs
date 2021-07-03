@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using RewardingSystem.Persistence;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using RewardingSystem.Application;
 
 namespace RewardingSystem.Controllers
 {
-    public class BasicController:Controller
+    public class BasicController : Controller
     {
-        protected DatabaseContext Context{ get; set; }
-
-        public BasicController(DatabaseContext context)
+        protected IUnitOfWork UnitOfWork { get; set; }
+        
+        public BasicController(IUnitOfWork uow)
         {
-            this.Context = context;
+            this.UnitOfWork = uow;
         }
     }
 }
