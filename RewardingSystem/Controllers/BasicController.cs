@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using RewardingSystem.Persistence;
 
 namespace RewardingSystem.Controllers
 {
-    public class BasicController
+    public class BasicController:Controller
     {
         protected DatabaseContext Context{ get; set; }
         protected IConfiguration Configurations{ get; set; }

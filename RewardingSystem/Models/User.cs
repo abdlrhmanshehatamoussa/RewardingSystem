@@ -22,5 +22,9 @@ namespace RewardingSystem.Models
         //Navigation Property
         [InverseProperty("User")]
         public virtual List<UserToken> UserTokens{get;set;}
+
+        //Navigation Property
+        [InverseProperty("User")]
+        public virtual List<Transaction> Transactions{get;set;}
     }
 }

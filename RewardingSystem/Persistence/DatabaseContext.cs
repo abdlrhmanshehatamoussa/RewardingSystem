@@ -10,6 +10,7 @@ namespace RewardingSystem.Persistence
         public DbSet<Admin> Admins { get; set; }
         public DbSet<AdminToken> AdminTokens { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -25,7 +26,8 @@ namespace RewardingSystem.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Admin>().HasIndex(a=>a.UserName).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(a=>a.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u=>u.Email).IsUnique();
+            modelBuilder.Entity<Transaction>().HasIndex(t=>t.ReferenceNumber).IsUnique();
         }
 
         void Save()
