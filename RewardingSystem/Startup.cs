@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
+using RewardingSystem.Filters;
 using RewardingSystem.Helpers;
 using RewardingSystem.Persistence;
 namespace RewardingSystem
@@ -44,6 +45,8 @@ namespace RewardingSystem
                 .AddJsonOptions((options) => { });
             
             services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<AdminFilter>();
+            services.AddScoped<LoggedUserFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,18 +1,30 @@
 using System;
 using Microsoft.AspNetCore.Mvc.Filters;
+using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
+using RewardingSystem.Models;
 
 namespace RewardingSystem.Filters
 {
-    public class AdminFilter : Attribute, IAuthorizationFilter
+    public class AdminFilter : BasicAuthorizationFilter, IAuthorizationFilter
     {
+        public AdminFilter(IUnitOfWork uow) : base(uow)
+        {
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            string token = context.HttpContext.Request.Headers["token"];
-            if (token != "admin")
+            string token = context.HttpContext.Request.Headers["admin-token"];
+            if (string.IsNullOrWhiteSpace(token) == false)
             {
-                throw new NotAuthorizedException();
+                Admin admin = this.UnitOfWork.Admins.GetByToken(token);
+                if (admin != null)
+                {
+                    context.HttpContext.Items.Add("user", admin);
+                    return;
+                }
             }
+            throw new NotAuthorizedException();
         }
     }
 }

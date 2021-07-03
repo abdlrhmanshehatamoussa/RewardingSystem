@@ -16,8 +16,7 @@ namespace RewardingSystem.Controllers
         public PointsController(IUnitOfWork uow) : base(uow)
         {
         }
-
-        [LoggedUserFilter]
+        [ServiceFilter(typeof(LoggedUserFilter))]
         [HttpGet]
         public IActionResult Get()
         {
@@ -31,7 +30,7 @@ namespace RewardingSystem.Controllers
         }
 
 
-        [AdminFilter]
+        [ServiceFilter(typeof(AdminFilter))]
         [HttpPost]
         public IActionResult Post([FromBody] dynamic request)
         {
