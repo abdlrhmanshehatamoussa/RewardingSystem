@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using RewardingSystem.Application;
 using RewardingSystem.Models;
 using System;
 using System.Linq;
 
 namespace RewardingSystem.Persistence
 {
-    public class AdminsRepository : Repository
+    public class AdminsRepository : Repository,IAdminsRepository
     {
         public AdminsRepository(DatabaseContext context) : base(context)
         {

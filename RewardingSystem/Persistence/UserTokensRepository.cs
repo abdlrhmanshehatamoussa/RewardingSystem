@@ -1,15 +1,15 @@
 using RewardingSystem.Helpers;
 using RewardingSystem.Models;
-
+using RewardingSystem.Application;
 namespace RewardingSystem.Persistence
 {
-    public class UserTokensRepository : Repository
+    public class UserTokensRepository : Repository, IUserTokensRepository
     {
         public UserTokensRepository(DatabaseContext context) : base(context)
         {
         }
 
-        public string Create(int userId)
+        public string Add(int userId)
         {
             string token = Utils.GenerateToken();
             UserToken userToken = new UserToken()

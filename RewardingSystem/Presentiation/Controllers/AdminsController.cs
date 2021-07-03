@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
 using RewardingSystem.Models;
 using RewardingSystem.Persistence;
@@ -11,8 +11,8 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class AdminsController : BasicController
     {
-        private AdminsRepository AdminsRepository;
-        private AdminTokensRepository AdminTokensRepository;
+        private IAdminsRepository AdminsRepository;
+        private IAdminTokensRepository AdminTokensRepository;
 
         public AdminsController(DatabaseContext context) : base(context)
         {
@@ -52,7 +52,7 @@ namespace RewardingSystem.Controllers
             {
                 throw new FailedLoginException("Invalid Credentials");
             }
-            string token = this.AdminTokensRepository.Create(admin.Id);
+            string token = this.AdminTokensRepository.Add(admin.Id);
             if (string.IsNullOrWhiteSpace(token))
             {
                 throw new FailedLoginException("Failed to create token");

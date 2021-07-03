@@ -1,16 +1,17 @@
 using RewardingSystem.Helpers;
 using RewardingSystem.Models;
+using RewardingSystem.Application;
 
 namespace RewardingSystem.Persistence
 {
 
-    public class AdminTokensRepository : Repository
+    public class AdminTokensRepository : Repository, IAdminTokensRepository
     {
         public AdminTokensRepository(DatabaseContext context) : base(context)
         {
         }
 
-        public string Create(int AdminId)
+        public string Add(int AdminId)
         {
             string token = Utils.GenerateToken();
             AdminToken AdminToken = new AdminToken()

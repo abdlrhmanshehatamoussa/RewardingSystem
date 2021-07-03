@@ -1,16 +1,16 @@
 using RewardingSystem.Models;
-using System;
+using RewardingSystem.Application;
 using System.Collections.Generic;
 using System.Linq;
 namespace RewardingSystem.Persistence
 {
-    public class TransactionsRepository : Repository
+    public class TransactionsRepository : Repository, ITransactionsRepository
     {
         public TransactionsRepository(DatabaseContext context) : base(context)
         {
         }
 
-        public void Save(Transaction transaction)
+        public void Add(Transaction transaction)
         {
             if (transaction.Id == 0)
             {

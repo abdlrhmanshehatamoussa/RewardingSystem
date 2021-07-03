@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using RewardingSystem.Models;
 using System.Linq;
+using RewardingSystem.Application;
+
 namespace RewardingSystem.Persistence
 {
-    public class UsersRepository : Repository
+    public class UsersRepository : Repository, IUsersRepository
     {
         public UsersRepository(DatabaseContext context) : base(context)
         {

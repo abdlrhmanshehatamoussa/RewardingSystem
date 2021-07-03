@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using RewardingSystem.Application;
 using RewardingSystem.Models;
 using RewardingSystem.Persistence;
 using RewardingSystem.Filters;
@@ -13,8 +13,8 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class PointsController : BasicController
     {
-        private TransactionsRepository TransactionsRepository { get; set; }
-        private UsersRepository UsersRepository { get; set; }
+        private ITransactionsRepository TransactionsRepository { get; set; }
+        private IUsersRepository UsersRepository { get; set; }
 
         public PointsController(DatabaseContext context) : base(context)
         {
@@ -54,7 +54,7 @@ namespace RewardingSystem.Controllers
                 Description = description,
                 ReferenceNumber = refNum,
             };
-            this.TransactionsRepository.Save(transaction);
+            this.TransactionsRepository.Add(transaction);
             return new EmptyResult();
         }
     }
