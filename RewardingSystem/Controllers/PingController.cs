@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using RewardingSystem.Helpers;
 using RewardingSystem.Persistence;
 using System;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class PingController : BasicController
     {
-        public PingController(IConfiguration config, DatabaseContext context) : base(config, context)
+        public PingController(DatabaseContext context) : base(context)
         {
         }
 
@@ -18,12 +19,14 @@ namespace RewardingSystem.Controllers
         public IActionResult Get()
         {
             var merchants = Context.Merchants.ToList();
-            var version = this.Configurations.GetValue<string>("AppSettings:Version");
+            var version = AppSettings.Instance.Version;
+            var environment = AppSettings.Instance.Environment;
             var timestamp = string.Format("{0} - {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
             var response = new
             {
                 Version = version,
-                TimeStamp = timestamp
+                TimeStamp = timestamp,
+                Environment = environment
             };
             return new JsonResult(response);
         }

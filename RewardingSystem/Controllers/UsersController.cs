@@ -14,7 +14,7 @@ namespace RewardingSystem.Controllers
         private UsersRepository UsersRepository;
         private UserTokensRepository UserTokensRepository;
 
-        public UsersController(IConfiguration config, DatabaseContext context) : base(config, context)
+        public UsersController(DatabaseContext context) : base(context)
         {
             this.UsersRepository = new UsersRepository(context);
             this.UserTokensRepository = new UserTokensRepository(context);

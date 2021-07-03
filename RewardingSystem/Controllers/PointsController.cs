@@ -16,7 +16,7 @@ namespace RewardingSystem.Controllers
         private TransactionsRepository TransactionsRepository { get; set; }
         private UsersRepository UsersRepository { get; set; }
 
-        public PointsController(IConfiguration config, DatabaseContext context) : base(config, context)
+        public PointsController(DatabaseContext context) : base(context)
         {
             this.TransactionsRepository = new TransactionsRepository(context);
             this.UsersRepository = new UsersRepository(context);

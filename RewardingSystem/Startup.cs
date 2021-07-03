@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RewardingSystem.Exceptions;
+using RewardingSystem.Helpers;
 using RewardingSystem.Persistence;
 namespace RewardingSystem
 {
@@ -23,6 +24,7 @@ namespace RewardingSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            AppSettings.Initialize(this.Configuration);
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)

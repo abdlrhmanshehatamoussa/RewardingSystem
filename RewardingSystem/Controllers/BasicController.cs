@@ -7,12 +7,10 @@ namespace RewardingSystem.Controllers
     public class BasicController:Controller
     {
         protected DatabaseContext Context{ get; set; }
-        protected IConfiguration Configurations{ get; set; }
 
-        public BasicController(IConfiguration config, DatabaseContext context)
+        public BasicController(DatabaseContext context)
         {
             this.Context = context;
-            this.Configurations = config;
         }
     }
 }

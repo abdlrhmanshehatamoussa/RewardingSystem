@@ -14,7 +14,7 @@ namespace RewardingSystem.Controllers
         private AdminsRepository AdminsRepository;
         private AdminTokensRepository AdminTokensRepository;
 
-        public AdminsController(IConfiguration config, DatabaseContext context) : base(config, context)
+        public AdminsController(DatabaseContext context) : base(context)
         {
             this.AdminsRepository = new AdminsRepository(context);
             this.AdminTokensRepository = new AdminTokensRepository(context);

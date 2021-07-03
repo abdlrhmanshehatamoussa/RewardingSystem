@@ -10,7 +10,7 @@ namespace RewardingSystem.Controllers
     [ApiController]
     public class MerchantsController : BasicController
     {
-        public MerchantsController(IConfiguration config, DatabaseContext context) : base(config, context)
+        public MerchantsController(DatabaseContext context) : base(context)
         {
         }
 
