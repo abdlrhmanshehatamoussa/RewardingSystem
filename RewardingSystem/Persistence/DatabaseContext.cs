@@ -37,6 +37,7 @@ namespace RewardingSystem.Persistence
             modelBuilder.Entity<VoucherType>().HasIndex(vt => vt.Name).IsUnique();
             modelBuilder.Entity<VoucherRank>().HasIndex(vr => vr.Name).IsUnique();
             modelBuilder.Entity<Merchant>().HasIndex(m => m.Name).IsUnique();
+            modelBuilder.Entity<Purchase>().HasIndex(p => new { p.UserId, p.VoucherId }).IsUnique();
         }
 
         void Save()
