@@ -24,6 +24,7 @@ namespace RewardingSystem.Exceptions
             map.Add(typeof(NotAuthorizedException), Globals.ERROR_CODE_NOT_AUTHORIZED);
             map.Add(typeof(VoucherForbiddenException), Globals.ERROR_CODE_VOUCHER_FORBIDDEN);
             map.Add(typeof(VoucherUsageLimitException), Globals.ERROR_CODE_VOUCHER_USAGE_LIMIT);
+            map.Add(typeof(NotAuthenticatedException), Globals.ERROR_CODE_NOT_AUTHENTICATED);
             return map;
         }
     }

@@ -6,10 +6,6 @@ namespace RewardingSystem.Exceptions
     [Serializable]
     internal class VoucherForbiddenException : Exception
     {
-        public VoucherForbiddenException()
-        {
-        }
-
         public VoucherForbiddenException(string message) : base(message)
         {
         }

@@ -6,10 +6,6 @@ namespace RewardingSystem.Exceptions
     [Serializable]
     internal class VoucherUsageLimitException : Exception
     {
-        public VoucherUsageLimitException()
-        {
-        }
-
         public VoucherUsageLimitException(string message) : base(message)
         {
         }

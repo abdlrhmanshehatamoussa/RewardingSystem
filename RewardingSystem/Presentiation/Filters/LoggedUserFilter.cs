@@ -25,7 +25,7 @@ namespace RewardingSystem.Filters
                     return;
                 }
             }
-            throw new NotAuthorizedException();
+            throw new NotAuthenticatedException();
         }
     }
 }

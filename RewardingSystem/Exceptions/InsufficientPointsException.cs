@@ -6,10 +6,6 @@ namespace RewardingSystem.Exceptions
     [Serializable]
     internal class InsufficientPointsException : Exception
     {
-        public InsufficientPointsException()
-        {
-        }
-
         public InsufficientPointsException(string message) : base(message)
         {
         }

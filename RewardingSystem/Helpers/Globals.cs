@@ -4,6 +4,7 @@ namespace RewardingSystem.Helpers
     {
         public const int ERROR_CODE_FAILED_LOGIN = 498;
         public const int ERROR_CODE_NOT_AUTHORIZED = 496;
+        public static int ERROR_CODE_NOT_AUTHENTICATED = 497;
         public const int ERROR_CODE_VOUCHER_FORBIDDEN = 540;
         public const int ERROR_CODE_VOUCHER_USAGE_LIMIT = 541;
 
@@ -12,5 +13,6 @@ namespace RewardingSystem.Helpers
         public const string HEADER_ADMIN_TOKEN = "admin-token";
 
         public const string CONTEXT_ITEM_USER = "user";
+
     }
 }
