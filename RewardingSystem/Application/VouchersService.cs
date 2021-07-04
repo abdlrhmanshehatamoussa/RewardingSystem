@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using RewardingSystem.Models;
 
 namespace RewardingSystem.Application
@@ -11,9 +10,9 @@ namespace RewardingSystem.Application
         public VouchersService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-        public List<Voucher> GetForUser(int userId)
+        public List<VoucherSummary> GetForUser(int userId)
         {
-            List<Voucher> results = new List<Voucher>();
+            List<VoucherSummary> results = new List<VoucherSummary>();
             //1-Get user points
             List<Transaction> transactions = UnitOfWork.Transactions.Get(userId);
             int points = transactions.Sum(t => t.Amount);
@@ -26,9 +25,22 @@ namespace RewardingSystem.Application
             foreach (var rank in ranks)
             {
                 List<Voucher> rankVouchers = UnitOfWork.Vouchers.GetByRank(rank.Id);
-                results.AddRange(rankVouchers);
+                foreach (var rankVoucher in rankVouchers)
+                {
+                    bool hasPurchased = UnitOfWork.Purchases.HasPurchased(userId, rankVoucher.Id);
+                    List<Trial> trials = UnitOfWork.Trials.GetByVoucherId(userId, rankVoucher.Id);
+                    string code = rankVoucher.Code;
+                    if (hasPurchased == false)
+                    {
+                        code = null;
+                    }
+                    VoucherSummary summary = VoucherSummary.FromVoucher(rankVoucher, code,hasPurchased, trials.Count);
+                    results.Add(summary);
+                }
             }
             return results;
         }
     }
 }
+
+
