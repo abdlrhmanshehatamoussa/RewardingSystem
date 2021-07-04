@@ -67,6 +67,8 @@ namespace RewardingSystem
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", info);
+                    c.OperationFilter<AdminFilter>();
+                    c.OperationFilter<LoggedUserFilter>();
                 });
         }
 
