@@ -48,6 +48,9 @@ namespace RewardingSystem
 
             //Injecting dependencies
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
+            services.AddScoped<VouchersService>();
+
             services.AddScoped<AdminFilter>();
             services.AddScoped<LoggedUserFilter>();
 

@@ -15,13 +15,13 @@ namespace RewardingSystem.Persistence
 
         public List<Voucher> GetByRank(int rankId)
         {
-            return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherType).Where(v => v.VoucherRankId == rankId).ToList();
+            return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherRank).Include(v => v.VoucherType).Where(v => v.VoucherRankId == rankId).ToList();
         }
 
 
         public List<Voucher> GetByType(int typeId)
         {
-            return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherRank).Where(v => v.VoucherTypeId == typeId).ToList();
+            return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherType).Include(v => v.VoucherRank).Where(v => v.VoucherTypeId == typeId).ToList();
         }
 
         Voucher IVouchersRepository.GetById(int voucherId)
