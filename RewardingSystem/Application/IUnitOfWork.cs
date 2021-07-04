@@ -7,7 +7,12 @@ namespace RewardingSystem.Application
         IUserTokensRepository UserTokens { get; set; }
         IAdminTokensRepository AdminsTokens { get; set; }
         ITransactionsRepository Transactions { get; set; }
-        
+
+        IVouchersRepository Vouchers { get; set; }
+        IVoucherRanksRepository VoucherRanks { get; set; }
+
+        IVoucherTypesRepository VoucherTypes { get; set; }
+
         void Save();
     }
 }

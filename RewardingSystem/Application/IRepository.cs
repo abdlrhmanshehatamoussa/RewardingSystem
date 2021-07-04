@@ -36,4 +36,21 @@ namespace RewardingSystem.Application
         User GetByEmail(string email);
     }
 
+
+    public interface IVouchersRepository
+    {
+        List<Voucher> GetByRank(int rankId);
+
+        List<Voucher> GetByType(int typeId);
+    }
+
+    public interface IVoucherRanksRepository
+    {
+        List<VoucherRank> GetAll();
+    }
+
+    public interface IVoucherTypesRepository
+    {
+        List<VoucherType> GetAll();
+    }
 }
