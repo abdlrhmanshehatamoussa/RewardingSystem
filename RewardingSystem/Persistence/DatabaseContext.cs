@@ -25,9 +25,13 @@ namespace RewardingSystem.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Admin>().HasIndex(a=>a.UserName).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u=>u.Email).IsUnique();
-            modelBuilder.Entity<Transaction>().HasIndex(t=>t.ReferenceNumber).IsUnique();
+            modelBuilder.Entity<Admin>().HasIndex(a => a.UserName).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<Transaction>().HasIndex(t => t.ReferenceNumber).IsUnique();
+            modelBuilder.Entity<Voucher>().HasIndex(v => v.Code).IsUnique();
+            modelBuilder.Entity<VoucherType>().HasIndex(vt => vt.Name).IsUnique();
+            modelBuilder.Entity<VoucherRank>().HasIndex(vr => vr.Name).IsUnique();
+            modelBuilder.Entity<Merchant>().HasIndex(m => m.Name).IsUnique();
         }
 
         void Save()
