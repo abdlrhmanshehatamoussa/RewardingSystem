@@ -1,6 +1,7 @@
 using RewardingSystem.Models;
 using RewardingSystem.Application;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RewardingSystem.Persistence
 {
@@ -12,7 +13,7 @@ namespace RewardingSystem.Persistence
 
         public List<VoucherRank> GetAll()
         {
-            throw new System.NotImplementedException();
+            return this.Context.VoucherRanks.ToList();
         }
     }
 }

@@ -1,6 +1,8 @@
 using RewardingSystem.Models;
 using RewardingSystem.Application;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace RewardingSystem.Persistence
 {
@@ -13,13 +15,13 @@ namespace RewardingSystem.Persistence
 
         public List<Voucher> GetByRank(int rankId)
         {
-            throw new System.NotImplementedException();
+            return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherType).Where(v => v.VoucherRankId == rankId).ToList();
         }
 
 
         public List<Voucher> GetByType(int typeId)
         {
-            throw new System.NotImplementedException();
+            return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherRank).Where(v => v.VoucherTypeId == typeId).ToList();
         }
     }
 }
