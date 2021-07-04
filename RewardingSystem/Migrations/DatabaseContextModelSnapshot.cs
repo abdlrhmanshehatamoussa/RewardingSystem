@@ -173,7 +173,7 @@ namespace RewardingSystem.Migrations
 
                     b.HasIndex("VoucherTypeId");
 
-                    b.ToTable("Voucher");
+                    b.ToTable("Vouchers");
                 });
 
             modelBuilder.Entity("RewardingSystem.Models.VoucherRank", b =>
@@ -192,7 +192,7 @@ namespace RewardingSystem.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("VoucherRank");
+                    b.ToTable("VoucherRanks");
                 });
 
             modelBuilder.Entity("RewardingSystem.Models.VoucherType", b =>
@@ -211,7 +211,7 @@ namespace RewardingSystem.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("VoucherType");
+                    b.ToTable("VoucherTypes");
                 });
 
             modelBuilder.Entity("RewardingSystem.Models.AdminToken", b =>

@@ -14,20 +14,21 @@ namespace RewardingSystem.Migrations
                 oldClrType: typeof(string));
 
             migrationBuilder.CreateTable(
-                name: "VoucherRank",
+                name: "VoucherRanks",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false),
+                    Points = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoucherRank", x => x.Id);
+                    table.PrimaryKey("PK_VoucherRanks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "VoucherType",
+                name: "VoucherTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -37,11 +38,11 @@ namespace RewardingSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoucherType", x => x.Id);
+                    table.PrimaryKey("PK_VoucherTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Voucher",
+                name: "Vouchers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -56,23 +57,23 @@ namespace RewardingSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Voucher", x => x.Id);
+                    table.PrimaryKey("PK_Vouchers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Voucher_Merchants_MerchantId",
+                        name: "FK_Vouchers_Merchants_MerchantId",
                         column: x => x.MerchantId,
                         principalTable: "Merchants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Voucher_VoucherRank_VoucherRankId",
+                        name: "FK_Vouchers_VoucherRanks_VoucherRankId",
                         column: x => x.VoucherRankId,
-                        principalTable: "VoucherRank",
+                        principalTable: "VoucherRanks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Voucher_VoucherType_VoucherTypeId",
+                        name: "FK_Vouchers_VoucherTypes_VoucherTypeId",
                         column: x => x.VoucherTypeId,
-                        principalTable: "VoucherType",
+                        principalTable: "VoucherTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -84,35 +85,35 @@ namespace RewardingSystem.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Voucher_Code",
-                table: "Voucher",
-                column: "Code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Voucher_MerchantId",
-                table: "Voucher",
-                column: "MerchantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Voucher_VoucherRankId",
-                table: "Voucher",
-                column: "VoucherRankId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Voucher_VoucherTypeId",
-                table: "Voucher",
-                column: "VoucherTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VoucherRank_Name",
-                table: "VoucherRank",
+                name: "IX_VoucherRanks_Name",
+                table: "VoucherRanks",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_VoucherType_Name",
-                table: "VoucherType",
+                name: "IX_Vouchers_Code",
+                table: "Vouchers",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vouchers_MerchantId",
+                table: "Vouchers",
+                column: "MerchantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vouchers_VoucherRankId",
+                table: "Vouchers",
+                column: "VoucherRankId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vouchers_VoucherTypeId",
+                table: "Vouchers",
+                column: "VoucherTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoucherTypes_Name",
+                table: "VoucherTypes",
                 column: "Name",
                 unique: true);
         }
@@ -120,13 +121,13 @@ namespace RewardingSystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Voucher");
+                name: "Vouchers");
 
             migrationBuilder.DropTable(
-                name: "VoucherRank");
+                name: "VoucherRanks");
 
             migrationBuilder.DropTable(
-                name: "VoucherType");
+                name: "VoucherTypes");
 
             migrationBuilder.DropIndex(
                 name: "IX_Merchants_Name",

@@ -9,8 +9,8 @@ using RewardingSystem.Persistence;
 namespace RewardingSystem.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210704074211_Sprint3-2")]
-    partial class Sprint32
+    [Migration("20210704085445_Sprint3-1")]
+    partial class Sprint31
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,7 +175,7 @@ namespace RewardingSystem.Migrations
 
                     b.HasIndex("VoucherTypeId");
 
-                    b.ToTable("Voucher");
+                    b.ToTable("Vouchers");
                 });
 
             modelBuilder.Entity("RewardingSystem.Models.VoucherRank", b =>
@@ -194,7 +194,7 @@ namespace RewardingSystem.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("VoucherRank");
+                    b.ToTable("VoucherRanks");
                 });
 
             modelBuilder.Entity("RewardingSystem.Models.VoucherType", b =>
@@ -213,7 +213,7 @@ namespace RewardingSystem.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("VoucherType");
+                    b.ToTable("VoucherTypes");
                 });
 
             modelBuilder.Entity("RewardingSystem.Models.AdminToken", b =>
