@@ -52,23 +52,23 @@ namespace RewardingSystem
             services.AddScoped<LoggedUserFilter>();
 
             //Swagger
-            var info = new OpenApiInfo()
-            {
-                Version = "V1",
-                Title = "Rewarding System",
-                Description = "Browser various vouchers from great merchants.",
-                Contact = new OpenApiContact()
-                {
-                    Name = "Abdelrahman Shehata",
-                    Email = "abdlrhmanshehata@gmail.com"
-                },
-                License = null
-            };
             services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", info);
+                    c.SwaggerDoc("v1", new OpenApiInfo()
+                    {
+                        Version = "V1",
+                        Title = "Rewarding System",
+                        Description = "Browser various vouchers from great merchants.",
+                        Contact = new OpenApiContact()
+                        {
+                            Name = "Abdelrahman Shehata",
+                            Email = "abdlrhmanshehata@gmail.com"
+                        },
+                        License = null
+                    });
                     c.OperationFilter<AdminFilter>();
                     c.OperationFilter<LoggedUserFilter>();
+                    c.EnableAnnotations();
                 });
         }
 

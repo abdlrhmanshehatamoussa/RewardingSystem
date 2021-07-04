@@ -3,6 +3,7 @@ using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
 using RewardingSystem.Models;
 using RewardingSystem.Persistence;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 namespace RewardingSystem.Controllers
 {
@@ -17,6 +18,7 @@ namespace RewardingSystem.Controllers
 
         //Get user informatiom by token
         [HttpGet("{token}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Get(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
@@ -39,6 +41,7 @@ namespace RewardingSystem.Controllers
 
         //Exchange user credentials for a token
         [HttpPost("login", Name = "UsersLogin")]
+        [SwaggerOperation(summary: "Exchanges user credentials [Email, Password] for a user token (No Token Required)")]
         public IActionResult UsersLogin([FromBody] dynamic request)
         {
             string email = request.Email;

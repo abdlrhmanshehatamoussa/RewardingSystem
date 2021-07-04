@@ -3,6 +3,7 @@ using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
 using RewardingSystem.Filters;
 using RewardingSystem.Models;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace RewardingSystem.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(summary: "Get the available vouchers for the logged in user based on the number of points and the voucher ranks (Silver, Bronze, Gold, Platinum) (User Token Required)")]
         public IActionResult Get()
         {
             List<dynamic> results = new List<dynamic>();

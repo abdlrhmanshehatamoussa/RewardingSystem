@@ -3,6 +3,7 @@ using RewardingSystem.Application;
 using RewardingSystem.Models;
 using RewardingSystem.Filters;
 using System.Collections.Generic;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RewardingSystem.Controllers
 {
@@ -17,6 +18,7 @@ namespace RewardingSystem.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(summary: "Lists all the merchants (Admin Token Required)")]
         public IActionResult Get()
         {
             List<Merchant> merchants = UnitOfWork.Merchants.GetAll();

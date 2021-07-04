@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
 using RewardingSystem.Models;
-using RewardingSystem.Persistence;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 namespace RewardingSystem.Controllers
 {
@@ -17,6 +17,7 @@ namespace RewardingSystem.Controllers
 
         //Get Admin informatiom by token
         [HttpGet("{token}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Get(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
@@ -38,6 +39,7 @@ namespace RewardingSystem.Controllers
 
         //Exchange Admin credentials for a token
         [HttpPost("login", Name = "AdminsLogin")]
+        [SwaggerOperation(summary: "Exchanges admin credentials ['UserName', 'Password'] for an admin token (No Tokens Required)")]
         public IActionResult AdminsLogin([FromBody] dynamic request)
         {
             string username = request.UserName;

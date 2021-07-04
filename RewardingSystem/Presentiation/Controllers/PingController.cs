@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using RewardingSystem.Application;
 using RewardingSystem.Helpers;
 using System;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RewardingSystem.Controllers
 {
@@ -15,6 +16,7 @@ namespace RewardingSystem.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(summary: "Public endpoint to retrieve the version and environment of the system (No Tokens Required)")]
         public IActionResult Get()
         {
             var version = AppSettings.Instance.Version;

@@ -7,6 +7,7 @@ using RewardingSystem.Exceptions;
 using RewardingSystem.Filters;
 using RewardingSystem.Helpers;
 using RewardingSystem.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RewardingSystem.Controllers
 {
@@ -22,6 +23,7 @@ namespace RewardingSystem.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(summary: "Lists all the trials for the logged in user (User Token Required)")]
         public IActionResult Get()
         {
             //Get Trials
@@ -42,6 +44,7 @@ namespace RewardingSystem.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(summary: "Applies a voucher [VoucherId] for the logged in user (User Token Required)")]
         public IActionResult Post([FromBody] dynamic request)
         {
             //Get Voucher

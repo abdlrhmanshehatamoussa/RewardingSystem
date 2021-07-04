@@ -5,6 +5,7 @@ using RewardingSystem.Persistence;
 using RewardingSystem.Models;
 using RewardingSystem.Filters;
 using RewardingSystem.Application;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RewardingSystem.Controllers
 {
@@ -16,8 +17,11 @@ namespace RewardingSystem.Controllers
         public PointsController(IUnitOfWork uow) : base(uow)
         {
         }
+
+
         [ServiceFilter(typeof(LoggedUserFilter))]
         [HttpGet]
+        [SwaggerOperation(summary: "Get number of points for the logged in users (User Token Required)")]
         public IActionResult Get()
         {
             List<Transaction> transactions = UnitOfWork.Transactions.Get(LoggedUser.Id);
@@ -31,6 +35,7 @@ namespace RewardingSystem.Controllers
 
         [ServiceFilter(typeof(AdminFilter))]
         [HttpPost]
+        [SwaggerOperation(summary: "Adds points for a given user [Email, Amount, Description, ReferenceNumber] (Admin Token Required)")]
         public IActionResult Post([FromBody] dynamic request)
         {
             string email = request.Email;
