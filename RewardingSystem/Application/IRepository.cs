@@ -53,4 +53,18 @@ namespace RewardingSystem.Application
     {
         List<VoucherType> GetAll();
     }
+
+    public interface ITrialsRepository
+    {
+        void Save(int userId, int voucherId);
+
+        List<Trial> GetByUserId(int userId);
+    }
+
+    public interface IPurchasesRepository
+    {
+        void Save(int userId, int voucherId);
+     
+        List<Purchase> GetByUserId(int userId);
+    }
 }
