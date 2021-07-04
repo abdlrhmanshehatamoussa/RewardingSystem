@@ -11,7 +11,7 @@ namespace RewardingSystem.Filters
 {
     public class AdminFilter : BasicAuthorizationFilter, IAuthorizationFilter, IOperationFilter
     {
-        public AdminFilter(IUnitOfWork uow) : base(uow)
+        public AdminFilter(UsersService service) : base(service)
         {
         }
 
@@ -38,7 +38,7 @@ namespace RewardingSystem.Filters
             string token = context.HttpContext.Request.Headers[Globals.HEADER_ADMIN_TOKEN];
             if (string.IsNullOrWhiteSpace(token) == false)
             {
-                Admin admin = this.UnitOfWork.Admins.GetByToken(token);
+                Admin admin = this.UsersService.GetAdmin(token);
                 if (admin != null)
                 {
                     context.HttpContext.Items.Add("user", admin);

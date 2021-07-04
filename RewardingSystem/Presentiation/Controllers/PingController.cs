@@ -9,12 +9,8 @@ namespace RewardingSystem.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class PingController : BasicController
+    public class PingController : UserAwareController
     {
-        public PingController(IUnitOfWork uow) : base(uow)
-        {
-        }
-
         [HttpGet]
         [SwaggerOperation(summary: "Public endpoint to retrieve the version and environment of the system (No Tokens Required)")]
         public IActionResult Get()

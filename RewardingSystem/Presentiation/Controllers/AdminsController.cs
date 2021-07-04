@@ -9,10 +9,12 @@ namespace RewardingSystem.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class AdminsController : BasicController
+    public class AdminsController : UserAwareController
     {
-        public AdminsController(IUnitOfWork uow) : base(uow)
+        private UsersService UsersService { get; set; }
+        public AdminsController(UsersService service)
         {
+            this.UsersService = service;
         }
 
         //Get Admin informatiom by token
@@ -20,15 +22,7 @@ namespace RewardingSystem.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Get(string token)
         {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                throw new Exception("Missing Token");
-            }
-            var admin = this.UnitOfWork.Admins.GetByToken(token);
-            if (admin == null)
-            {
-                throw new Exception("Invalid Token");
-            }
+            Admin admin = this.UsersService.GetAdmin(token);
             return new JsonResult(
                 new
                 {
@@ -44,17 +38,7 @@ namespace RewardingSystem.Controllers
         {
             string username = request.UserName;
             string password = request.Password;
-            Admin admin = this.UnitOfWork.Admins.GetByUserName(username);
-            if (admin == null || admin.Password != password)
-            {
-                throw new FailedLoginException("Invalid Credentials");
-            }
-            string token = this.UnitOfWork.AdminsTokens.Add(admin.Id);
-            this.UnitOfWork.Save();
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                throw new FailedLoginException("Failed to create token");
-            }
+            string token = this.UsersService.LoginAdmin(username, password);
             return new JsonResult(
                 new
                 {

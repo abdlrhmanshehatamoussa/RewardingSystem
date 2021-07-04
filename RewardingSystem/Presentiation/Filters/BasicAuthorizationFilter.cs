@@ -5,10 +5,10 @@ namespace RewardingSystem.Filters
 {
     public class BasicAuthorizationFilter : Attribute
     {
-        protected IUnitOfWork UnitOfWork { get; set; }
-        public BasicAuthorizationFilter(IUnitOfWork uow)
+        protected UsersService UsersService { get; set; }
+        public BasicAuthorizationFilter(UsersService service)
         {
-            this.UnitOfWork = uow;
+            this.UsersService = service;
         }
     }
 }

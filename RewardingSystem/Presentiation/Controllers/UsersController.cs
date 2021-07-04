@@ -1,35 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using RewardingSystem.Application;
-using RewardingSystem.Exceptions;
-using RewardingSystem.Models;
-using RewardingSystem.Persistence;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 namespace RewardingSystem.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class UsersController : BasicController
+    public class UsersController : UserAwareController
     {
-        public UsersController(IUnitOfWork uow) : base(uow)
+        private UsersService UsersService { get; set; }
+        public UsersController(UsersService service)
         {
+            this.UsersService = service;
         }
+
 
         //Get user informatiom by token
         [HttpGet("{token}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Get(string token)
         {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                throw new Exception("Missing Token");
-            }
-            var user = UnitOfWork.Users.GetByToken(token);
-            if (user == null)
-            {
-                throw new Exception("Invalid Token");
-            }
+            var user = this.UsersService.GetUser(token);
             return new JsonResult(
                 new
                 {
@@ -46,17 +37,7 @@ namespace RewardingSystem.Controllers
         {
             string email = request.Email;
             string password = request.Password;
-            User user = UnitOfWork.Users.GetByEmail(email);
-            if (user == null || user.Password != password)
-            {
-                throw new FailedLoginException("Invalid Credentials");
-            }
-            string token = UnitOfWork.UserTokens.Add(user.Id);
-            UnitOfWork.Save();
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                throw new FailedLoginException("Failed to create token");
-            }
+            string token = UsersService.LoginUser(email, password);
             return new JsonResult(
                 new
                 {

@@ -12,7 +12,7 @@ namespace RewardingSystem.Filters
 {
     public class LoggedUserFilter : BasicAuthorizationFilter, IAuthorizationFilter, IOperationFilter
     {
-        public LoggedUserFilter(IUnitOfWork uow) : base(uow)
+        public LoggedUserFilter(UsersService service) : base(service)
         {
         }
 
@@ -39,7 +39,7 @@ namespace RewardingSystem.Filters
             string token = context.HttpContext.Request.Headers[Globals.HEADER_TOKEN];
             if (string.IsNullOrWhiteSpace(token) == false)
             {
-                User user = this.UnitOfWork.Users.GetByToken(token);
+                User user = this.UsersService.GetUser(token);
                 if (user != null)
                 {
                     context.HttpContext.Items.Add(Globals.CONTEXT_ITEM_USER, user);
