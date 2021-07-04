@@ -22,6 +22,8 @@ namespace RewardingSystem.Application
         
         IPurchasesRepository Purchases { get; set; }
 
+        IMerchantsRepository Merchants {get;set;}
+
         void Save();
     }
 }

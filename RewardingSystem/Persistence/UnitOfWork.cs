@@ -15,6 +15,7 @@ namespace RewardingSystem.Persistence
         public IVoucherTypesRepository VoucherTypes { get; set; }
         public ITrialsRepository Trials { get; set; }
         public IPurchasesRepository Purchases { get; set; }
+        public IMerchantsRepository Merchants { get; set; }
 
         public UnitOfWork(DatabaseContext context)
         {
@@ -29,6 +30,7 @@ namespace RewardingSystem.Persistence
             this.VoucherRanks = new VoucherRanksRepository(context);
             this.Purchases = new PurchasesRepository(context);
             this.Trials = new TrialsRepository(context);
+            this.Merchants = new MerchantsRepository(context);
         }
 
         public void Save()

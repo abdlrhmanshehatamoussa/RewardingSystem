@@ -68,9 +68,14 @@ namespace RewardingSystem.Application
     public interface IPurchasesRepository
     {
         void Save(int userId, int voucherId);
-     
+
         List<Purchase> GetByUserId(int userId);
 
         bool HasPurchased(int userId, int voucherId);
+    }
+
+    public interface IMerchantsRepository
+    {
+        List<Merchant> GetAll();
     }
 }

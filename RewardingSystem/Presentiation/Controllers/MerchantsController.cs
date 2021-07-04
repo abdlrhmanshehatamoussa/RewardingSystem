@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RewardingSystem.Application;
-using System;
+using RewardingSystem.Models;
+using RewardingSystem.Filters;
+using System.Collections.Generic;
 
 namespace RewardingSystem.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class MerchantsController:BasicController
+    [ServiceFilter(typeof(AdminFilter))]
+    public class MerchantsController : BasicController
     {
         public MerchantsController(IUnitOfWork uow) : base(uow)
         {
@@ -16,7 +19,8 @@ namespace RewardingSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            throw new NotImplementedException();
+            List<Merchant> merchants = UnitOfWork.Merchants.GetAll();
+            return new JsonResult(merchants);
         }
     }
 }
