@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using RewardingSystem.Application;
-using RewardingSystem.Exceptions;
 using RewardingSystem.Filters;
-using RewardingSystem.Helpers;
 using RewardingSystem.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -15,79 +12,27 @@ namespace RewardingSystem.Controllers
     [Produces("application/json")]
     [ApiController]
     [ServiceFilter(typeof(LoggedUserFilter))]
-    public class TrialsController : BasicController
+    public class TrialsController : UserAwareController
     {
-        public TrialsController(IUnitOfWork uow) : base(uow)
+        private TrialsService TrialsService { get; set; }
+        public TrialsController(TrialsService service)
         {
-
-        }
-
-        [HttpGet]
-        [SwaggerOperation(summary: "Lists all the trials for the logged in user (User Token Required)")]
-        public IActionResult Get()
-        {
-            //Get Trials
-            List<Trial> trials = UnitOfWork.Trials.GetByUserId(LoggedUser.Id);
-
-            //Group the trials
-            var groups = trials.GroupBy(t => t.Voucher.Title);
-            List<TrialsSummary> results = new List<TrialsSummary>();
-            foreach (var group in groups)
-            {
-                results.Add(new TrialsSummary()
-                {
-                    VoucherTitle = group.Key,
-                    Trials = group.Count()
-                });
-            }
-            return new JsonResult(results);
+            this.TrialsService = service;
         }
 
         [HttpPost]
         [SwaggerOperation(summary: "Applies a voucher [VoucherId] for the logged in user (User Token Required)")]
         public IActionResult Post([FromBody] dynamic request)
         {
-            //Get Voucher
             int voucherId = request.VoucherId;
-            Voucher voucher = UnitOfWork.Vouchers.GetById(voucherId);
-            if (voucher == null)
-            {
-                throw new Exception("Invalid Voucher Id");
-            }
+            this.TrialsService.UseVoucher(LoggedUser.Id, voucherId);
 
-            //Get purchases
-            bool hasPurchased = UnitOfWork.Purchases.HasPurchased(LoggedUser.Id, voucherId);
-            if (hasPurchased == false)
-            {
-                string message = "Please purchase the voucher first to be able to apply it";
-                throw new VoucherForbiddenException(message);
-            }
-
-            //Get Trials
-            int trialsCount = UnitOfWork.Trials.GetByVoucherId(LoggedUser.Id, voucherId).Count;
-
-            //Check the limits
-            if (trialsCount >= voucher.Limit)
-            {
-                throw new VoucherUsageLimitException("Number of trials were exceeded");
-            }
-
-            //Save
-            UnitOfWork.Trials.Save(LoggedUser.Id, voucherId);
-            UnitOfWork.Save();
-            string fakeMessage = string.Format("Discount of {0}% has been applied", voucher.VoucherType.Discount);
+            string fakeMessage = string.Format("Discount has been applied");
             return new JsonResult(new
             {
                 Status = fakeMessage
             });
         }
 
-
-
-        private class TrialsSummary
-        {
-            public string VoucherTitle { get; set; }
-            public int Trials { get; set; }
-        }
     }
 }

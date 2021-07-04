@@ -50,6 +50,7 @@ namespace RewardingSystem
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             services.AddScoped<VouchersService>();
+            services.AddScoped<TrialsService>();
 
             services.AddScoped<AdminFilter>();
             services.AddScoped<LoggedUserFilter>();
