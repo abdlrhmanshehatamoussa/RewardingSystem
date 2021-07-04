@@ -41,7 +41,6 @@ namespace RewardingSystem.Filters
                 Admin admin = this.UsersService.GetAdmin(token);
                 if (admin != null)
                 {
-                    context.HttpContext.Items.Add("user", admin);
                     return;
                 }
             }

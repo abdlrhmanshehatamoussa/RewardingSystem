@@ -1,21 +1,21 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using RewardingSystem.Persistence;
 using RewardingSystem.Models;
 using RewardingSystem.Filters;
 using RewardingSystem.Application;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 
 namespace RewardingSystem.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class PointsController : BasicController
+    public class PointsController : UserAwareController
     {
-        public PointsController(IUnitOfWork uow) : base(uow)
+        private TransactionsService TransactionsService { get; set; }
+        public PointsController(TransactionsService service)
         {
+            this.TransactionsService = service;
         }
 
 
@@ -24,8 +24,7 @@ namespace RewardingSystem.Controllers
         [SwaggerOperation(summary: "Get number of points for the logged in users (User Token Required)")]
         public IActionResult Get()
         {
-            List<Transaction> transactions = UnitOfWork.Transactions.Get(LoggedUser.Id);
-            int points = transactions.Sum(t => t.Amount);
+            int points = TransactionsService.GetPointsForUser(LoggedUser.Id);
             return new JsonResult(new
             {
                 Points = points
@@ -42,18 +41,17 @@ namespace RewardingSystem.Controllers
             int amount = request.Amount;
             string description = request.Description;
             int refNum = request.ReferenceNumber;
-
-            User user = UnitOfWork.Users.GetByEmail(email);
-            int userId = user.Id;
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(description) || refNum == 0 || amount == 0)
+            {
+                throw new Exception("Please fill the input parameters properly");
+            }
             Transaction transaction = new Transaction()
             {
                 Amount = amount,
-                UserId = user.Id,
                 Description = description,
                 ReferenceNumber = refNum,
             };
-            UnitOfWork.Transactions.Add(transaction);
-            UnitOfWork.Save();
+            this.TransactionsService.CreateTransaction(email, transaction);
             return new EmptyResult();
         }
     }

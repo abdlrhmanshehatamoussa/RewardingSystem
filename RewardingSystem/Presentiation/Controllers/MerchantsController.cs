@@ -11,17 +11,19 @@ namespace RewardingSystem.Controllers
     [Produces("application/json")]
     [ApiController]
     [ServiceFilter(typeof(AdminFilter))]
-    public class MerchantsController : BasicController
+    public class MerchantsController : UserAwareController
     {
-        public MerchantsController(IUnitOfWork uow) : base(uow)
+        private MerchantsService MerchantsService { get; set; }
+        public MerchantsController(MerchantsService s)
         {
+            this.MerchantsService = s;
         }
 
         [HttpGet]
         [SwaggerOperation(summary: "Lists all the merchants (Admin Token Required)")]
         public IActionResult Get()
         {
-            List<Merchant> merchants = UnitOfWork.Merchants.GetAll();
+            List<Merchant> merchants = this.MerchantsService.GetAll();
             return new JsonResult(merchants);
         }
     }
