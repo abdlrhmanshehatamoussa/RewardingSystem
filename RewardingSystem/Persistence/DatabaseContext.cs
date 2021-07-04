@@ -14,6 +14,8 @@ namespace RewardingSystem.Persistence
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<VoucherRank> VoucherRanks { get; set; }
         public DbSet<VoucherType> VoucherTypes { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Trial> Trials { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
