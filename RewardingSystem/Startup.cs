@@ -51,6 +51,8 @@ namespace RewardingSystem
             
             services.AddScoped<VouchersService>();
             services.AddScoped<TrialsService>();
+            services.AddScoped<PurchasesService>();
+
 
             services.AddScoped<AdminFilter>();
             services.AddScoped<LoggedUserFilter>();
