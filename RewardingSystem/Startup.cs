@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
@@ -26,32 +27,60 @@ namespace RewardingSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             //Load application settings
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             AppSettings.Instance.Initialize(this.Configuration);
-            
+
             //Register the database context
             services.AddDbContext<DatabaseContext>(
-                options =>
-                {
-                    options.UseSqlServer(connectionString);
-                }
-            );
+                        options =>
+                        {
+                            options.UseSqlServer(connectionString);
+                        }
+                    );
 
             //Register the main services
             services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions((options) => { });
-            
-            services.AddScoped<IUnitOfWork,UnitOfWork>();
+                        .AddMvc()
+                        .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                        .AddJsonOptions((options) => { });
+
+            //Injecting dependencies
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<AdminFilter>();
             services.AddScoped<LoggedUserFilter>();
+
+            //Swagger
+            var info = new OpenApiInfo()
+            {
+                Version = "V1",
+                Title = "Rewarding System",
+                Description = "Browser various vouchers from great merchants.",
+                Contact = new OpenApiContact()
+                {
+                    Name = "Abdelrahman Shehata",
+                    Email = "abdlrhmanshehata@gmail.com"
+                },
+                License = null
+            };
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", info);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rewarding System API v1");
+            });
+
+            //Exception Handling
             try
             {
                 app.UseExceptionHandler(
