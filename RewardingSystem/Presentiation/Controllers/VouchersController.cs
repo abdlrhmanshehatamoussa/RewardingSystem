@@ -39,6 +39,7 @@ namespace RewardingSystem.Controllers
                 List<Voucher> rankVouchers = UnitOfWork.Vouchers.GetByRank(rank.Id);
                 var subResults = rankVouchers.Select(v => new
                 {
+                    Id = v.Id,
                     Title = v.Title,
                     Description = v.Description,
                     Rank = rank.Name,

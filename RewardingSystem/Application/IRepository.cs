@@ -42,6 +42,8 @@ namespace RewardingSystem.Application
         List<Voucher> GetByRank(int rankId);
 
         List<Voucher> GetByType(int typeId);
+
+        Voucher GetById(int voucherId);
     }
 
     public interface IVoucherRanksRepository
@@ -59,6 +61,8 @@ namespace RewardingSystem.Application
         void Save(int userId, int voucherId);
 
         List<Trial> GetByUserId(int userId);
+
+        List<Trial> GetByVoucherId(int userId, int voucherId);
     }
 
     public interface IPurchasesRepository
@@ -66,5 +70,7 @@ namespace RewardingSystem.Application
         void Save(int userId, int voucherId);
      
         List<Purchase> GetByUserId(int userId);
+
+        bool HasPurchased(int userId, int voucherId);
     }
 }

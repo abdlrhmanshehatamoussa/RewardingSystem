@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RewardingSystem.Application;
 using RewardingSystem.Exceptions;
+using RewardingSystem.Helpers;
 using RewardingSystem.Models;
 
 namespace RewardingSystem.Filters
@@ -14,13 +15,13 @@ namespace RewardingSystem.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            string token = context.HttpContext.Request.Headers["token"];
+            string token = context.HttpContext.Request.Headers[Globals.HEADER_TOKEN];
             if (string.IsNullOrWhiteSpace(token) == false)
             {
                 User user = this.UnitOfWork.Users.GetByToken(token);
                 if (user != null)
                 {
-                    context.HttpContext.Items.Add("user", user);
+                    context.HttpContext.Items.Add(Globals.CONTEXT_ITEM_USER, user);
                     return;
                 }
             }

@@ -23,5 +23,10 @@ namespace RewardingSystem.Persistence
         {
             return this.Context.Vouchers.Include(v => v.Merchant).Include(v => v.VoucherRank).Where(v => v.VoucherTypeId == typeId).ToList();
         }
+
+        Voucher IVouchersRepository.GetById(int voucherId)
+        {
+            return this.Context.Vouchers.Include(v=>v.VoucherRank).Include(v=>v.VoucherType).FirstOrDefault(v => v.Id == voucherId);
+        }
     }
 }

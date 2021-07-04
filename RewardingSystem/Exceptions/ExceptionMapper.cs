@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RewardingSystem.Helpers;
 
 namespace RewardingSystem.Exceptions
 {
@@ -19,8 +20,10 @@ namespace RewardingSystem.Exceptions
         private static Dictionary<Type, int> BuildMap()
         {
             Dictionary<Type, int> map = new Dictionary<Type, int>();
-            map.Add(typeof(FailedLoginException), 498);
-            map.Add(typeof(NotAuthorizedException), 496);
+            map.Add(typeof(FailedLoginException), Globals.ERROR_CODE_FAILED_LOGIN);
+            map.Add(typeof(NotAuthorizedException), Globals.ERROR_CODE_NOT_AUTHORIZED);
+            map.Add(typeof(VoucherForbiddenException), Globals.ERROR_CODE_VOUCHER_FORBIDDEN);
+            map.Add(typeof(VoucherUsageLimitException), Globals.ERROR_CODE_VOUCHER_USAGE_LIMIT);
             return map;
         }
     }
