@@ -23,8 +23,7 @@ namespace RewardingSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            User loggedInUser = this.HttpContext.Items[Globals.CONTEXT_ITEM_USER] as User;
-            List<Purchase> purchases = UnitOfWork.Purchases.GetByUserId(loggedInUser.Id);
+            List<Purchase> purchases = UnitOfWork.Purchases.GetByUserId(LoggedUser.Id);
             var results = purchases.Select(p => new
             {
                 Title = p.Voucher.Title,
@@ -37,11 +36,6 @@ namespace RewardingSystem.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] dynamic request)
         {
-
-           //Get User
-            User loggedInUser = this.HttpContext.Items[Globals.CONTEXT_ITEM_USER] as User;
-            int userId = loggedInUser.Id;
-
             //Get Voucher
             int voucherId = request.VoucherId;
             Voucher voucher = UnitOfWork.Vouchers.GetById(voucherId);
@@ -51,8 +45,8 @@ namespace RewardingSystem.Controllers
             }
 
             //Get Points
-            List<Transaction> transactions = UnitOfWork.Transactions.Get(userId);
-            int points = transactions.Sum(t=>t.Amount);
+            List<Transaction> transactions = UnitOfWork.Transactions.Get(LoggedUser.Id);
+            int points = transactions.Sum(t => t.Amount);
             if (points < voucher.VoucherRank.Points)
             {
                 string message = "You don't have enough points";
@@ -60,7 +54,7 @@ namespace RewardingSystem.Controllers
             }
 
             //Purchase the voucher
-            UnitOfWork.Purchases.Save(userId, voucherId);
+            UnitOfWork.Purchases.Save(LoggedUser.Id, voucherId);
             UnitOfWork.Save();
             return new EmptyResult();
         }

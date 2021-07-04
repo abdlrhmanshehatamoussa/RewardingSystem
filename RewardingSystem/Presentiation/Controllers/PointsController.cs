@@ -20,8 +20,7 @@ namespace RewardingSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            User loggedInUser = this.HttpContext.Items["user"] as User;
-            List<Transaction> transactions = UnitOfWork.Transactions.Get(loggedInUser.Id);
+            List<Transaction> transactions = UnitOfWork.Transactions.Get(LoggedUser.Id);
             int points = transactions.Sum(t => t.Amount);
             return new JsonResult(new
             {

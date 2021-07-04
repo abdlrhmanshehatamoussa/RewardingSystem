@@ -24,11 +24,8 @@ namespace RewardingSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            //Get user
-            User loggedInUser = this.HttpContext.Items[Globals.CONTEXT_ITEM_USER] as User;
-
             //Get Trials
-            List<Trial> trials = UnitOfWork.Trials.GetByUserId(loggedInUser.Id);
+            List<Trial> trials = UnitOfWork.Trials.GetByUserId(LoggedUser.Id);
 
             //Group the trials
             var groups = trials.GroupBy(t => t.Voucher.Title);
@@ -47,10 +44,6 @@ namespace RewardingSystem.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] dynamic request)
         {
-            //Get User
-            User loggedInUser = this.HttpContext.Items[Globals.CONTEXT_ITEM_USER] as User;
-            int userId = loggedInUser.Id;
-
             //Get Voucher
             int voucherId = request.VoucherId;
             Voucher voucher = UnitOfWork.Vouchers.GetById(voucherId);
@@ -60,7 +53,7 @@ namespace RewardingSystem.Controllers
             }
 
             //Get purchases
-            bool hasPurchased = UnitOfWork.Purchases.HasPurchased(userId, voucherId);
+            bool hasPurchased = UnitOfWork.Purchases.HasPurchased(LoggedUser.Id, voucherId);
             if (hasPurchased == false)
             {
                 string message = "Please purchase the voucher first to be able to apply it";
@@ -68,7 +61,7 @@ namespace RewardingSystem.Controllers
             }
 
             //Get Trials
-            int trialsCount = UnitOfWork.Trials.GetByVoucherId(userId, voucherId).Count;
+            int trialsCount = UnitOfWork.Trials.GetByVoucherId(LoggedUser.Id, voucherId).Count;
 
             //Check the limits
             if (trialsCount >= voucher.Limit)
@@ -77,7 +70,7 @@ namespace RewardingSystem.Controllers
             }
 
             //Save
-            UnitOfWork.Trials.Save(userId, voucherId);
+            UnitOfWork.Trials.Save(LoggedUser.Id, voucherId);
             UnitOfWork.Save();
             string fakeMessage = string.Format("Discount of {0}% has been applied", voucher.VoucherType.Discount);
             return new JsonResult(new

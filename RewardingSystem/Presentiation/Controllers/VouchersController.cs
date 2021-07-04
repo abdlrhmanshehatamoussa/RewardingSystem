@@ -25,8 +25,7 @@ namespace RewardingSystem.Controllers
         {
             List<dynamic> results = new List<dynamic>();
             //1-Get user points
-            User user = this.HttpContext.Items["user"] as User;
-            List<Transaction> transactions = UnitOfWork.Transactions.Get(user.Id);
+            List<Transaction> transactions = UnitOfWork.Transactions.Get(LoggedUser.Id);
             int points = transactions.Sum(t => t.Amount);
 
             //2-Get all the ranks below that number of points
